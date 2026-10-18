@@ -1,0 +1,2610 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ziad Tarek — iOS Developer specializing in Swift, SwiftUI, UIKit, and Clean Architecture. Shipped and maintained 10+ production apps with 13K+ installs on the App Store.">
+    <meta name="keywords" content="Ziad Tarek, iOS Developer, Swift, SwiftUI, UIKit, Mobile Engineer, Apple, App Store, Portfolio">
+    <meta name="author" content="Ziad Tarek">
+    <meta name="theme-color" content="#060709">
+    <title>Ziad Tarek — iOS Developer & Swift Specialist</title>
+    
+    <!-- Apple Font & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700;800;900&family=SF+Pro+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           APPLE HIG DESIGN TOKENS
+           ========================================================================== */
+        :root {
+            --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+            --font-mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+            
+            /* Apple Dark Theme (Default) */
+            --bg-base: #060709;
+            --bg-surface: #0e1015;
+            --bg-card: rgba(22, 25, 34, 0.72);
+            --bg-card-hover: rgba(30, 35, 48, 0.88);
+            --bg-glass: rgba(14, 16, 21, 0.82);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.2);
+            
+            --text-primary: #f5f5f7;
+            --text-secondary: #8e8e93;
+            --text-muted: #5c5c64;
+            
+            /* Apple HIG Accents */
+            --apple-blue: #0A84FF;
+            --apple-blue-rgb: 10, 132, 255;
+            --apple-swift: #F05138;
+            --apple-swift-rgb: 240, 81, 56;
+            --apple-green: #30D158;
+            --apple-purple: #BF5AF2;
+            --apple-cyan: #64D2FF;
+            --apple-orange: #FF9F0A;
+            --apple-yellow: #FFD60A;
+            
+            --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.5);
+            --shadow-float: 0 25px 70px rgba(0, 0, 0, 0.65);
+            --shadow-glow: 0 0 60px rgba(10, 132, 255, 0.15);
+            
+            --radius-sm: 10px;
+            --radius-md: 18px;
+            --radius-lg: 28px;
+            --radius-pill: 9999px;
+            
+            --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f5f5f7;
+            --bg-surface: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.88);
+            --bg-card-hover: #ffffff;
+            --bg-glass: rgba(245, 245, 247, 0.85);
+            --border-subtle: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(0, 0, 0, 0.18);
+            
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --text-muted: #86868b;
+            
+            --apple-blue: #0071E3;
+            --apple-blue-rgb: 0, 113, 227;
+            --apple-swift: #E03E22;
+            --apple-swift-rgb: 224, 62, 34;
+            --apple-green: #28cd41;
+            
+            --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.06);
+            --shadow-float: 0 20px 50px rgba(0, 0, 0, 0.12);
+            --shadow-glow: 0 0 40px rgba(0, 113, 227, 0.1);
+        }
+
+        /* ==========================================================================
+           RESET & BASE
+           ========================================================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-display);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        button {
+            border: none;
+            outline: none;
+            background: none;
+            cursor: pointer;
+            font-family: inherit;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Ambient Glow Top */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 520px;
+            background: radial-gradient(circle, rgba(var(--apple-blue-rgb), 0.14) 0%, rgba(var(--apple-swift-rgb), 0.06) 50%, transparent 80%);
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ==========================================================================
+           NAVBAR (APPLE FROSTED GLASS)
+           ========================================================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            background: var(--bg-glass);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: var(--transition);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.12rem;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-monogram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--apple-swift), #ff7b54);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 0.88rem;
+            box-shadow: 0 4px 14px rgba(var(--apple-swift-rgb), 0.35);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-link {
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-toggle-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .theme-toggle-btn:hover {
+            color: var(--apple-blue);
+            border-color: var(--border-hover);
+            transform: scale(1.05);
+        }
+
+        .btn-resume {
+            padding: 8px 18px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            border-radius: var(--radius-pill);
+            background: var(--apple-blue);
+            color: #ffffff !important;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 14px rgba(var(--apple-blue-rgb), 0.3);
+            transition: var(--transition);
+        }
+
+        .btn-resume:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(var(--apple-blue-rgb), 0.45);
+        }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero {
+            position: relative;
+            padding-top: 145px;
+            padding-bottom: 70px;
+            z-index: 1;
+        }
+
+        .hero-header-row {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            margin-bottom: 26px;
+            flex-wrap: wrap;
+        }
+
+        .hero-avatar-wrap {
+            position: relative;
+            width: 104px;
+            height: 104px;
+            flex-shrink: 0;
+        }
+
+        .hero-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 38%;
+            border: 3px solid var(--border-hover);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(var(--apple-blue-rgb), 0.18);
+            transition: var(--transition);
+        }
+
+        .hero-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 0 5px rgba(var(--apple-blue-rgb), 0.35);
+        }
+
+        .avatar-online-dot {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--apple-green);
+            border: 3px solid var(--bg-base);
+            box-shadow: 0 0 10px var(--apple-green);
+        }
+
+        .brand-avatar-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            object-fit: cover;
+            object-position: center 38%;
+            border: 1.5px solid rgba(var(--apple-swift-rgb), 0.4);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-avatar-box {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .contact-avatar-img {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 38%;
+            border: 3px solid var(--border-hover);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(var(--apple-blue-rgb), 0.2);
+        }
+
+        .hero-badge-wrap {
+            margin-bottom: 0;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: var(--radius-pill);
+            background: rgba(48, 209, 88, 0.12);
+            border: 1px solid rgba(48, 209, 88, 0.25);
+            color: var(--apple-green);
+            font-size: 0.84rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--apple-green);
+            box-shadow: 0 0 10px var(--apple-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(48, 209, 88, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(48, 209, 88, 0); }
+        }
+
+        .hero-title {
+            font-size: clamp(2.8rem, 6vw, 4.6rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -0.035em;
+            margin-bottom: 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 40%, #8fa3bf 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        [data-theme="light"] .gradient-text {
+            background: linear-gradient(135deg, #1d1d1f 30%, #515158 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .swift-gradient {
+            background: linear-gradient(135deg, var(--apple-swift), #ff7b54);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: var(--text-secondary);
+            max-width: 740px;
+            line-height: 1.6;
+            margin-bottom: 36px;
+            font-weight: 400;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 50px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: var(--apple-blue);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: var(--radius-pill);
+            box-shadow: 0 8px 24px rgba(var(--apple-blue-rgb), 0.35);
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(var(--apple-blue-rgb), 0.5);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: var(--radius-pill);
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .social-pill-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .social-pill {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .social-pill:hover {
+            color: var(--text-primary);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Metric Grid */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            transition: var(--transition);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-card);
+        }
+
+        .metric-val {
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .metric-label {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ==========================================================================
+           IPHONE KEYNOTE STUDIO (EXPANDED & SPACIOUS)
+           ========================================================================== */
+        .keynote-section {
+            padding: 90px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto 40px auto;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--apple-swift);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(2.1rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            line-height: 1.15;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Top Horizontal App Selector Bar */
+        .app-selector-strip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 36px;
+        }
+
+        .app-selector-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border-radius: var(--radius-pill);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .app-selector-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .app-selector-btn.active {
+            background: var(--text-primary);
+            color: var(--bg-base);
+            border-color: var(--text-primary);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+        }
+
+        .app-selector-btn .btn-badge {
+            font-size: 0.72rem;
+            padding: 2px 7px;
+            border-radius: var(--radius-pill);
+            background: rgba(var(--apple-blue-rgb), 0.18);
+            color: var(--apple-blue);
+        }
+
+        .app-selector-btn.active .btn-badge {
+            background: rgba(0, 0, 0, 0.15);
+            color: inherit;
+        }
+
+        /* The Grand Keynote Studio Stage */
+        .keynote-stage {
+            background: var(--bg-card);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 56px 48px;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 56px;
+            align-items: center;
+            box-shadow: var(--shadow-float);
+        }
+
+        /* Left: The Enlarged iPhone 16 Pro Frame */
+        .iphone-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .iphone-frame {
+            width: 370px;
+            height: 740px;
+            background: #000000;
+            border-radius: 56px;
+            padding: 14px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.75), inset 0 0 0 3px #38383e, inset 0 0 0 6px #1c1c1f;
+            position: relative;
+            user-select: none;
+        }
+
+        .iphone-screen {
+            width: 100%;
+            height: 100%;
+            background: #0d0f14;
+            border-radius: 46px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            color: #ffffff;
+            font-family: var(--font-display);
+        }
+
+        /* Dynamic Island */
+        .dynamic-island {
+            width: 125px;
+            height: 32px;
+            background: #000000;
+            border-radius: 22px;
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .dynamic-island.expanded {
+            width: 250px;
+            height: 44px;
+            border-radius: 24px;
+            background: #050608;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .island-camera {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #11141c;
+        }
+
+        .island-text {
+            font-size: 0.72rem;
+            color: #30D158;
+            font-weight: 700;
+            display: none;
+        }
+
+        .dynamic-island.expanded .island-text {
+            display: block;
+        }
+
+        /* iOS Status Bar */
+        .ios-status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 26px 0 26px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #ffffff;
+            z-index: 10;
+        }
+
+        .status-icons {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Screen Inner Flow */
+        .screen-content {
+            padding: 42px 20px 20px 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
+        }
+
+        .screen-app-hero {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .screen-app-icon {
+            width: 62px;
+            height: 62px;
+            border-radius: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            flex-shrink: 0;
+        }
+
+        .screen-app-meta h4 {
+            font-size: 1.18rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+
+        .screen-app-meta span {
+            font-size: 0.82rem;
+            color: #8e9ba8;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Segmented Controller inside Phone */
+        .phone-segment {
+            display: flex;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 3px;
+            margin-bottom: 18px;
+        }
+
+        .phone-segment-tab {
+            flex: 1;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #8e9ba8;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .phone-segment-tab.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .phone-tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .phone-tab-pane.active {
+            display: block;
+        }
+
+        .screen-card-box {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .screen-card-box h5 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--apple-cyan);
+            margin-bottom: 6px;
+        }
+
+        .screen-card-box p {
+            font-size: 0.84rem;
+            line-height: 1.45;
+            color: #d1d9e6;
+        }
+
+        .screen-store-cta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px;
+            background: #ffffff;
+            color: #000000 !important;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            margin-top: auto;
+            transition: var(--transition);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .screen-store-cta:hover {
+            transform: scale(1.02);
+            background: #f0f0f5;
+        }
+
+        /* Right: Engineering Deep Dive Spec Panel */
+        .keynote-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .details-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            background: rgba(var(--apple-blue-rgb), 0.12);
+            border: 1px solid rgba(var(--apple-blue-rgb), 0.25);
+            color: var(--apple-blue);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 14px;
+            align-self: flex-start;
+        }
+
+        .details-title {
+            font-size: clamp(2rem, 3.2vw, 2.7rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 12px;
+        }
+
+        .details-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .spec-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+        }
+
+        .spec-item-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .spec-item-val {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .details-tech-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .details-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* ==========================================================================
+           PRODUCTION APPS (APP STORE CARDS)
+           ========================================================================== */
+        .apps-section {
+            padding: 80px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+        }
+
+        .app-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-card);
+        }
+
+        .app-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .app-icon-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
+        }
+
+        .app-title-group h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .app-category {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .store-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            background: rgba(var(--apple-blue-rgb), 0.12);
+            border: 1px solid rgba(var(--apple-blue-rgb), 0.25);
+            color: var(--apple-blue);
+            font-size: 0.76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .store-badge.highlight {
+            background: rgba(240, 81, 56, 0.12);
+            border-color: rgba(240, 81, 56, 0.3);
+            color: var(--apple-swift);
+        }
+
+        .store-badge.purple {
+            background: rgba(191, 90, 242, 0.12);
+            border-color: rgba(191, 90, 242, 0.3);
+            color: var(--apple-purple);
+        }
+
+        .store-badge.orange {
+            background: rgba(255, 159, 10, 0.12);
+            border-color: rgba(255, 159, 10, 0.3);
+            color: var(--apple-orange);
+        }
+
+        .app-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .app-feature-list {
+            list-style: none;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .app-feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: var(--text-primary);
+        }
+
+        .app-feature-list li svg {
+            color: var(--apple-green);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .tag-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+        }
+        [data-theme="light"] .tag {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .btn-store {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: var(--radius-pill);
+            background: var(--text-primary);
+            color: var(--bg-base) !important;
+            font-weight: 700;
+            font-size: 0.82rem;
+            transition: var(--transition);
+        }
+
+        .btn-store:hover {
+            transform: translateY(-2px);
+            opacity: 0.92;
+        }
+
+        /* ==========================================================================
+           SKILLS & ARCHITECTURE (APPLE SYSTEM CARDS)
+           ========================================================================== */
+        .skills-section {
+            padding: 80px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .skill-category-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: var(--transition);
+        }
+
+        .skill-category-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .cat-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.25rem;
+        }
+
+        .category-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .skill-items-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .skill-chip:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .skill-chip.featured {
+            background: rgba(var(--apple-swift-rgb), 0.1);
+            border-color: rgba(var(--apple-swift-rgb), 0.3);
+            color: var(--apple-swift);
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           WORK EXPERIENCE TIMELINE
+           ========================================================================== */
+        .experience-section {
+            padding: 80px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline {
+            max-width: 880px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            left: 20px;
+            width: 2px;
+            background: var(--border-subtle);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 40px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 12px;
+            top: 6px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--apple-blue);
+            border: 4px solid var(--bg-base);
+            box-shadow: 0 0 0 2px var(--apple-blue);
+        }
+
+        .timeline-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            transition: var(--transition);
+        }
+
+        .timeline-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .timeline-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .timeline-role {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: var(--apple-blue);
+            background: rgba(var(--apple-blue-rgb), 0.1);
+            padding: 4px 12px;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+        }
+
+        .timeline-company {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .timeline-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .timeline-bullets li {
+            position: relative;
+            padding-left: 20px;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .timeline-bullets li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--apple-blue);
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        /* ==========================================================================
+           EDUCATION & CREDENTIALS
+           ========================================================================== */
+        .edu-section {
+            padding: 40px 0 80px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .edu-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .edu-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .edu-badge {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--apple-purple);
+            background: rgba(191, 90, 242, 0.1);
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .edu-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .edu-card p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+        }
+
+        /* ==========================================================================
+           CONTACT & FOOTER
+           ========================================================================== */
+        .contact-section {
+            padding: 80px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, rgba(var(--apple-blue-rgb), 0.08), rgba(var(--apple-swift-rgb), 0.05)), var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 56px;
+            text-align: center;
+            max-width: 880px;
+            margin: 0 auto;
+            box-shadow: var(--shadow-float);
+        }
+
+        .contact-card h2 {
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+        }
+
+        .contact-card p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 580px;
+            margin: 0 auto 36px auto;
+        }
+
+        .contact-links-grid {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 26px;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: 0.95rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .contact-btn:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .contact-btn.primary {
+            background: var(--apple-blue);
+            color: #ffffff;
+            border-color: var(--apple-blue);
+            box-shadow: 0 8px 24px rgba(var(--apple-blue-rgb), 0.35);
+        }
+
+        .footer {
+            border-top: 1px solid var(--border-subtle);
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-primary);
+            color: var(--bg-base);
+            padding: 12px 24px;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE STYLES
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .keynote-stage {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 40px 24px;
+            }
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            .metric-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .edu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .iphone-frame {
+                width: 320px;
+                height: 650px;
+            }
+            .metric-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .contact-card {
+                padding: 36px 20px;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-primary, .btn-secondary {
+                justify-content: center;
+            }
+            .spec-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glow Top -->
+    <div class="ambient-glow"></div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span id="toastMsg">Email copied to clipboard!</span>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="brand">
+                <img src="ziad.jpg" alt="Ziad Tarek" class="brand-avatar-img">
+                <span>Ziad Tarek</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#keynote" class="nav-link">iPhone Studio</a></li>
+                <li><a href="#apps" class="nav-link">10+ Apps Shipped</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <!-- Direct Onclick Theme Toggle Button (Guaranteed to work) -->
+                <button id="themeToggle" class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Dark/Light Mode">
+                    <!-- Sun Icon (Shows when in Dark mode to switch to Light) -->
+                    <svg id="sunIcon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <!-- Moon Icon (Shows when in Light mode to switch to Dark) -->
+                    <svg id="moonIcon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+
+                <!-- Resume Download Link -->
+                <a href="Ziad_Tarek_iOS_Developer.pdf" target="_blank" class="btn-resume">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span>Resume</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="about">
+        <div class="container">
+            <div class="hero-header-row">
+                <div class="hero-avatar-wrap">
+                    <img src="ziad.jpg" alt="Ziad Tarek" class="hero-avatar">
+                    <span class="avatar-online-dot" title="Available for opportunities"></span>
+                </div>
+                <div class="hero-badge-wrap">
+                    <div class="status-pill">
+                        <span class="pulse-dot"></span>
+                        <span>Available for iOS Engineering Opportunities</span>
+                    </div>
+                </div>
+            </div>
+
+            <h1 class="hero-title">
+                Designing & shipping <br>
+                <span class="gradient-text">fluid iOS experiences</span> with <span class="swift-gradient">Swift</span>.
+            </h1>
+
+            <p class="hero-subtitle">
+                I'm <strong>Ziad Tarek</strong>, an iOS Developer based in Cairo, Egypt. Specializing in <strong>Swift, SwiftUI, UIKit</strong>, and <strong>Clean Architecture (MVVM & VIPER)</strong>. I have shipped and maintained <strong>10+ production applications</strong> across e-commerce, real estate, and property management—reaching over <strong>13,000+ users</strong> on the App Store.
+            </p>
+
+            <div class="hero-cta-group">
+                <a href="#keynote" class="btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.99.6-2.63 1.35-.56.65-.98 1.7-.85 2.73 1 .08 2.03-.5 2.55-1.23z"/></svg>
+                    <span>Launch iPhone Studio</span>
+                </a>
+
+                <a href="Ziad_Tarek_iOS_Developer.pdf" target="_blank" class="btn-secondary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <span>Download CV (PDF)</span>
+                </a>
+
+                <div class="social-pill-group">
+                    <a href="https://github.com/Ziad-Mo-Tarek" target="_blank" class="social-pill" title="GitHub Profile">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/ziad-tarek-ios" target="_blank" class="social-pill" title="LinkedIn Profile">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <button onclick="copyEmail()" class="social-pill" title="Copy Email">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Metric Cards (Clarified: 10+ Production Apps & Published Store Apps) -->
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-val" style="color: var(--apple-swift);">10+</div>
+                    <div class="metric-label">Production Apps Shipped & Maintained</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val" style="color: var(--apple-blue);">13K+</div>
+                    <div class="metric-label">App Store Active Installs</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val" style="color: var(--apple-green);">4</div>
+                    <div class="metric-label">Featured Live App Store Links</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val" style="color: var(--apple-purple);">2+ Yrs</div>
+                    <div class="metric-label">Production iOS Experience</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KEYNOTE SHOWCASE (EXPANDED IPHONE 16 PRO STUDIO) -->
+    <section class="keynote-section" id="keynote">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Keynote Studio</span>
+                <h2 class="section-title">Interactive iPhone Showcase</h2>
+                <p class="section-desc">Test-drive my featured iOS applications right inside the iPhone 16 Pro simulator. Click any app or interact with the Dynamic Island and tabs.</p>
+            </div>
+
+            <!-- Top Interactive App Selector Bar -->
+            <div class="app-selector-strip">
+                <button class="app-selector-btn active" data-app="delta" onclick="selectApp('delta')">
+                    <span>🏢 Delta Capital</span>
+                    <span class="btn-badge">App Store</span>
+                </button>
+
+                <button class="app-selector-btn" data-app="alheba" onclick="selectApp('alheba')">
+                    <span>🛒 Alheba Grocery</span>
+                    <span class="btn-badge" style="color: var(--apple-swift);">13K+ Installs</span>
+                </button>
+
+                <button class="app-selector-btn" data-app="aqarify" onclick="selectApp('aqarify')">
+                    <span>🏘️ Aqarify CRM</span>
+                    <span class="btn-badge" style="color: var(--apple-purple);">VIPER</span>
+                </button>
+
+                <button class="app-selector-btn" data-app="kamco" onclick="selectApp('kamco')">
+                    <span>🏷️ Kamco EOIs</span>
+                    <span class="btn-badge" style="color: var(--apple-orange);">WebSockets</span>
+                </button>
+
+                <button class="app-selector-btn" data-app="pioneer" onclick="selectApp('pioneer')">
+                    <span>⚖️ Pioneer Law</span>
+                    <span class="btn-badge">EdTech</span>
+                </button>
+
+                <button class="app-selector-btn" data-app="crypto" onclick="selectApp('crypto')">
+                    <span>🪙 Crypto Tracker</span>
+                    <span class="btn-badge">Combine</span>
+                </button>
+            </div>
+
+            <!-- Spacious Keynote Stage -->
+            <div class="keynote-stage">
+                <!-- Left: Enlarged iPhone 16 Pro -->
+                <div class="iphone-wrapper">
+                    <div class="iphone-frame">
+                        <div class="iphone-screen">
+                            <!-- Dynamic Island (Interactive Expansion) -->
+                            <div class="dynamic-island" id="dynamicIsland" onclick="toggleIsland()" title="Click Dynamic Island">
+                                <div class="island-camera"></div>
+                                <span class="island-text" id="islandText">Swift 6 · TestFlight Approved</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#30D158"><circle cx="12" cy="12" r="10"/></svg>
+                            </div>
+
+                            <!-- iOS Status Bar -->
+                            <div class="ios-status-bar">
+                                <span>9:41</span>
+                                <div class="status-icons">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z"/></svg>
+                                    <span style="font-size: 0.75rem; font-weight: 700;">5G</span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="18" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="9" width="12" height="6" rx="1"/></svg>
+                                </div>
+                            </div>
+
+                            <!-- Screen Inner Content -->
+                            <div class="screen-content" id="screenContent">
+                                <!-- Injected dynamically by selectApp() -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Engineering Deep Dive Spec Panel -->
+                <div class="keynote-details" id="keynoteDetails">
+                    <!-- Injected dynamically by selectApp() -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAILED PRODUCTION APPS GRID (ALL 10+ APPS HIGHLIGHTED) -->
+    <section class="apps-section" id="apps">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Production Portfolio</span>
+                <h2 class="section-title">10+ Production Applications</h2>
+                <p class="section-desc">Shipped and maintained across e-commerce, real estate, and property management—featuring 4 live listings on the Apple App Store.</p>
+            </div>
+
+            <div class="apps-grid">
+                <!-- App 1: Delta Capital -->
+                <div class="app-card">
+                    <div>
+                        <div class="app-card-top">
+                            <div class="app-icon-wrap">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #1b3a5c, #2a5298); color: #64D2FF;">🏢</div>
+                                <div class="app-title-group">
+                                    <h3>Delta Capital</h3>
+                                    <div class="app-category">Residential Compound Platform</div>
+                                </div>
+                            </div>
+                            <span class="store-badge">Live App Store</span>
+                        </div>
+
+                        <p class="app-desc">
+                            A unified digital platform enabling residential compound residents to request essential services, communicate, and manage compound access.
+                        </p>
+
+                        <ul class="app-feature-list">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Engineered 4 core modules: service requests, digital marketplace, gate access, and resident chats.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Built an interactive community feed with pagination and local caching for seamless offline browsing.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Automated build distribution using Xcode Cloud and TestFlight.</span>
+                            </li>
+                        </ul>
+
+                        <div class="tag-row">
+                            <span class="tag">Swift</span>
+                            <span class="tag">SwiftUI</span>
+                            <span class="tag">MVVM</span>
+                            <span class="tag">REST APIs</span>
+                            <span class="tag">URLSession</span>
+                            <span class="tag">Caching</span>
+                            <span class="tag">Xcode Cloud</span>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <a href="https://apps.apple.com/eg/app/delta-capital-%D8%AF%D9%84%D8%AA%D8%A7-%D9%83%D8%A7%D8%A8%D9%8A%D8%AA%D8%A7%D9%84/id1571792080" target="_blank" class="btn-store">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.99.6-2.63 1.35-.56.65-.98 1.7-.85 2.73 1 .08 2.03-.5 2.55-1.23z"/></svg>
+                            <span>View on App Store</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- App 2: Alheba Grocery -->
+                <div class="app-card">
+                    <div>
+                        <div class="app-card-top">
+                            <div class="app-icon-wrap">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #107e3e, #28cd41); color: #ffffff;">🛒</div>
+                                <div class="app-title-group">
+                                    <h3>Alheba Grocery</h3>
+                                    <div class="app-category">Grocery E-Commerce Platform</div>
+                                </div>
+                            </div>
+                            <span class="store-badge highlight">13K+ Installs · App Store</span>
+                        </div>
+
+                        <p class="app-desc">
+                            High-traffic grocery ordering application with over 13,000 installs, serving thousands of daily catalog queries and instant checkouts.
+                        </p>
+
+                        <ul class="app-feature-list">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Refactored legacy shopping cart architecture into modular, high-performance UI components.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Streamlined product filtering and real-time stock sync with optimized API payloads.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Enhanced crash-free user sessions through thorough regression testing and error boundaries.</span>
+                            </li>
+                        </ul>
+
+                        <div class="tag-row">
+                            <span class="tag">Swift</span>
+                            <span class="tag">UIKit</span>
+                            <span class="tag">Modular UI</span>
+                            <span class="tag">E-Commerce</span>
+                            <span class="tag">Refactoring</span>
+                            <span class="tag">Keychain</span>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <a href="https://apps.apple.com/eg/app/alheba-%D8%A7%D9%84%D9%87%D8%A8%D8%A9/id1575791379" target="_blank" class="btn-store">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.99.6-2.63 1.35-.56.65-.98 1.7-.85 2.73 1 .08 2.03-.5 2.55-1.23z"/></svg>
+                            <span>View on App Store</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- App 3: Aqarify CRM -->
+                <div class="app-card">
+                    <div>
+                        <div class="app-card-top">
+                            <div class="app-icon-wrap">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #4a154b, #BF5AF2); color: #ffffff;">🏘️</div>
+                                <div class="app-title-group">
+                                    <h3>Aqarify</h3>
+                                    <div class="app-category">Real Estate CRM Platform</div>
+                                </div>
+                            </div>
+                            <span class="store-badge purple">VIPER · App Store</span>
+                        </div>
+
+                        <p class="app-desc">
+                            A specialized enterprise CRM app designed for real estate brokers and property agencies to track listings, manage client leads, and process reservations.
+                        </p>
+
+                        <ul class="app-feature-list">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Engineered strict VIPER architecture separating View, Interactor, Presenter, Entity, and Router.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Built 3 core modules: client pipeline, unit inventory tracking, and reservation contract workflows.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Configured Universal Links for seamless lead onboarding directly into specific listings.</span>
+                            </li>
+                        </ul>
+
+                        <div class="tag-row">
+                            <span class="tag">Swift</span>
+                            <span class="tag">VIPER Architecture</span>
+                            <span class="tag">REST APIs</span>
+                            <span class="tag">CRM Systems</span>
+                            <span class="tag">Universal Links</span>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <a href="https://apps.apple.com/eg/app/aqarify/id6752714540" target="_blank" class="btn-store">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.99.6-2.63 1.35-.56.65-.98 1.7-.85 2.73 1 .08 2.03-.5 2.55-1.23z"/></svg>
+                            <span>View on App Store</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- App 4: Kamco Real Estate -->
+                <div class="app-card">
+                    <div>
+                        <div class="app-card-top">
+                            <div class="app-icon-wrap">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #c2410c, #FF9F0A); color: #ffffff;">🏷️</div>
+                                <div class="app-title-group">
+                                    <h3>Kamco EOIs</h3>
+                                    <div class="app-category">Real Estate Bidding & Auction App</div>
+                                </div>
+                            </div>
+                            <span class="store-badge orange">WebSockets · App Store</span>
+                        </div>
+
+                        <p class="app-desc">
+                            An apartment sales management and live auction application enabling dynamic, low-latency property bidding and expressions of interest.
+                        </p>
+
+                        <ul class="app-feature-list">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Integrated Pusher WebSockets for instant, bidirectional real-time auction room updates.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Utilized Swift Concurrency (async/await, Task, GCD) to handle high-frequency price feed changes.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Designed responsive bidding UI components with custom animation feedback on counter-offers.</span>
+                            </li>
+                        </ul>
+
+                        <div class="tag-row">
+                            <span class="tag">Swift</span>
+                            <span class="tag">SwiftUI</span>
+                            <span class="tag">Pusher WebSockets</span>
+                            <span class="tag">async/await</span>
+                            <span class="tag">Auctions</span>
+                            <span class="tag">GCD</span>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <a href="https://apps.apple.com/eg/app/kamco-eois/id6747507109" target="_blank" class="btn-store">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.99.6-2.63 1.35-.56.65-.98 1.7-.85 2.73 1 .08 2.03-.5 2.55-1.23z"/></svg>
+                            <span>View on App Store</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- App 5: Pioneer Legal -->
+                <div class="app-card">
+                    <div>
+                        <div class="app-card-top">
+                            <div class="app-icon-wrap">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: #ffffff;">⚖️</div>
+                                <div class="app-title-group">
+                                    <h3>Pioneer Law</h3>
+                                    <div class="app-category">Legal E-Learning Client Application</div>
+                                </div>
+                            </div>
+                            <span class="store-badge">EdTech Production</span>
+                        </div>
+
+                        <p class="app-desc">
+                            A video streaming and educational platform giving law students structured access to curated legal lectures, study materials, and assessments.
+                        </p>
+
+                        <ul class="app-feature-list">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Implemented in-app subscription and one-time payment flows for gated coursework.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Engineered video playback queues, interactive chapter markers, and offline document reading.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Built continuous student assessment tracking and progress synchronization with backend APIs.</span>
+                            </li>
+                        </ul>
+
+                        <div class="tag-row">
+                            <span class="tag">Swift</span>
+                            <span class="tag">SwiftUI</span>
+                            <span class="tag">In-App Purchases</span>
+                            <span class="tag">Video Streaming</span>
+                            <span class="tag">MVVM</span>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <span class="tag" style="padding: 8px 14px; font-weight: 600;">Production Client App</span>
+                    </div>
+                </div>
+
+                <!-- App 6: Crypto Tracker -->
+                <div class="app-card">
+                    <div>
+                        <div class="app-card-top">
+                            <div class="app-icon-wrap">
+                                <div class="app-icon" style="background: linear-gradient(135deg, #b45309, #f59e0b); color: #ffffff;">🪙</div>
+                                <div class="app-title-group">
+                                    <h3>Crypto Tracker</h3>
+                                    <div class="app-category">Reactive Financial Market App</div>
+                                </div>
+                            </div>
+                            <span class="store-badge highlight">SwiftUI & Combine</span>
+                        </div>
+
+                        <p class="app-desc">
+                            A high-frequency cryptocurrency tracking application featuring live order book feeds, historical trend charts, and reactive state pipelines.
+                        </p>
+
+                        <ul class="app-feature-list">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Leveraged Apple Combine framework for reactive publisher/subscriber data streams.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Implemented custom financial charting and interactive timeframe scrubbing.</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Integrated RESTful market APIs with defensive error handling and automatic retry policies.</span>
+                            </li>
+                        </ul>
+
+                        <div class="tag-row">
+                            <span class="tag">SwiftUI</span>
+                            <span class="tag">Combine</span>
+                            <span class="tag">State Management</span>
+                            <span class="tag">Market APIs</span>
+                        </div>
+                    </div>
+
+                    <div class="card-actions">
+                        <a href="https://github.com/Ziad-Mo-Tarek" target="_blank" class="btn-store">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                            <span>Explore on GitHub</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECHNICAL SKILLS MATRIX -->
+    <section class="skills-section" id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Technical Arsenal</span>
+                <h2 class="section-title">Skills & Architecture</h2>
+                <p class="section-desc">Focused exclusively on writing clean, idiomatic Swift and architecting robust, maintainable mobile applications.</p>
+            </div>
+
+            <div class="skills-grid">
+                <!-- Card 1: Core Swift & UI -->
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <div class="cat-icon-box" style="background: linear-gradient(135deg, var(--apple-swift), #ff7b54);">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.99.6-2.63 1.35-.56.65-.98 1.7-.85 2.73 1 .08 2.03-.5 2.55-1.23z"/></svg>
+                        </div>
+                        <h3>iOS Frameworks & UI</h3>
+                    </div>
+
+                    <div class="skill-items-wrap">
+                        <span class="skill-chip featured">Swift</span>
+                        <span class="skill-chip featured">SwiftUI</span>
+                        <span class="skill-chip">UIKit</span>
+                        <span class="skill-chip">Combine</span>
+                        <span class="skill-chip">Auto Layout</span>
+                        <span class="skill-chip">MapKit</span>
+                        <span class="skill-chip">Universal Links</span>
+                        <span class="skill-chip">App Localization</span>
+                        <span class="skill-chip">Dynamic Type</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Architecture & Patterns -->
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <div class="cat-icon-box" style="background: linear-gradient(135deg, var(--apple-blue), #2563eb);">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <h3>Architecture & Design</h3>
+                    </div>
+
+                    <div class="skill-items-wrap">
+                        <span class="skill-chip featured">MVVM</span>
+                        <span class="skill-chip featured">VIPER</span>
+                        <span class="skill-chip">Clean Architecture</span>
+                        <span class="skill-chip">SOLID Principles</span>
+                        <span class="skill-chip">async/await Concurrency</span>
+                        <span class="skill-chip">Grand Central Dispatch (GCD)</span>
+                        <span class="skill-chip">Dependency Injection</span>
+                        <span class="skill-chip">Design Patterns</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Networking & Data -->
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <div class="cat-icon-box" style="background: linear-gradient(135deg, var(--apple-green), #059669);">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <h3>Networking, Storage & Real-Time</h3>
+                    </div>
+
+                    <div class="skill-items-wrap">
+                        <span class="skill-chip featured">RESTful APIs</span>
+                        <span class="skill-chip featured">URLSession</span>
+                        <span class="skill-chip">Codable (JSON)</span>
+                        <span class="skill-chip">Pusher (WebSockets)</span>
+                        <span class="skill-chip">Keychain Storage</span>
+                        <span class="skill-chip">UserDefaults</span>
+                        <span class="skill-chip">Local Caching</span>
+                        <span class="skill-chip">Cursor Pagination</span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Tools, Testing & CI/CD -->
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <div class="cat-icon-box" style="background: linear-gradient(135deg, var(--apple-purple), #7c3aed);">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                        </div>
+                        <h3>Tools, Testing & Releases</h3>
+                    </div>
+
+                    <div class="skill-items-wrap">
+                        <span class="skill-chip featured">Xcode</span>
+                        <span class="skill-chip featured">Xcode Cloud</span>
+                        <span class="skill-chip">TestFlight</span>
+                        <span class="skill-chip">App Store Connect</span>
+                        <span class="skill-chip">Swift Package Manager (SPM)</span>
+                        <span class="skill-chip">Git (GitHub / Bitbucket)</span>
+                        <span class="skill-chip">Firebase (Auth, Push, Remote Config)</span>
+                        <span class="skill-chip">XCTest & XCUITest</span>
+                        <span class="skill-chip">Postman</span>
+                        <span class="skill-chip">Figma</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFESSIONAL EXPERIENCE TIMELINE -->
+    <section class="experience-section" id="experience">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Career Journey</span>
+                <h2 class="section-title">Work Experience</h2>
+                <p class="section-desc">Delivering production mobile solutions from architectural inception to TestFlight & App Store releases.</p>
+            </div>
+
+            <div class="timeline">
+                <!-- Role 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-top">
+                            <div class="timeline-role">Junior iOS Developer</div>
+                            <span class="timeline-date">Nov 2024 – Present</span>
+                        </div>
+                        <div class="timeline-company">Systemira · New Damietta, Egypt</div>
+
+                        <ul class="timeline-bullets">
+                            <li>Delivered 10+ production iOS applications across e-commerce, real estate, and property management domains using Swift and SwiftUI.</li>
+                            <li>Architected scalable features utilizing MVVM architecture, ensuring modular code structure, clear separation of concerns, and reusable UI components.</li>
+                            <li>Integrated RESTful APIs using URLSession and Codable; implemented Swift concurrency (async/await, GCD), caching, pagination, and Universal Links.</li>
+                            <li>Managed local persistence using UserDefaults and Keychain; automated continuous integration build distribution and releases via Xcode Cloud and TestFlight.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Role 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: var(--apple-swift); box-shadow: 0 0 0 2px var(--apple-swift);"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-top">
+                            <div class="timeline-role">iOS Developer Intern</div>
+                            <span class="timeline-date">Aug 2024 – Oct 2024</span>
+                        </div>
+                        <div class="timeline-company">Systemira · New Damietta, Egypt</div>
+
+                        <ul class="timeline-bullets">
+                            <li>Built a Crypto Tracker application integrating cryptocurrency market data APIs and reactive state management using SwiftUI and Combine.</li>
+                            <li>Collaborated daily within an Agile sprint cycle via Git (GitHub, Bitbucket), applying UI development, state management, and API integration concepts.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDUCATION & LANGUAGES -->
+    <section class="edu-section">
+        <div class="container">
+            <div class="edu-grid">
+                <div class="edu-card">
+                    <div>
+                        <span class="edu-badge">Oct 2021 – Jun 2025</span>
+                        <h3>Bachelor’s in Computer Science</h3>
+                        <p>Faculty of Computers and Artificial Intelligence, Damietta University, Egypt</p>
+                    </div>
+                    <div style="margin-top: 20px; font-size: 0.88rem; color: var(--text-secondary);">
+                        Comprehensive studies in Data Structures, Algorithms, Software Engineering, Object-Oriented Programming, Operating Systems, and Distributed Computing.
+                    </div>
+                </div>
+
+                <div class="edu-card">
+                    <div>
+                        <span class="edu-badge" style="color: var(--apple-cyan); background: rgba(100, 210, 255, 0.1);">Spoken Languages</span>
+                        <h3>Languages</h3>
+                        <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.92rem;">
+                                <span>Arabic</span>
+                                <strong style="color: var(--apple-green);">Native</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.92rem;">
+                                <span>English</span>
+                                <strong style="color: var(--apple-blue);">Full Professional</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="contact-card">
+                <div class="contact-avatar-box">
+                    <img src="ziad.jpg" alt="Ziad Tarek" class="contact-avatar-img">
+                </div>
+                <span class="section-tag">Let's Connect</span>
+                <h2>Ready to build something impactful together?</h2>
+                <p>I'm always open to discussing new iOS opportunities, contract projects, or engineering collaborations.</p>
+
+                <div class="contact-links-grid">
+                    <a href="mailto:ziad.sh.tarek@gmail.com" class="contact-btn primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        <span>Send Email</span>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/ziad-tarek-ios" target="_blank" class="contact-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        <span>LinkedIn</span>
+                    </a>
+
+                    <a href="https://github.com/Ziad-Mo-Tarek" target="_blank" class="contact-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        <span>GitHub</span>
+                    </a>
+
+                    <a href="tel:+201017722716" class="contact-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        <span>+20 101 772 2716</span>
+                    </a>
+                </div>
+
+                <div style="font-size: 0.9rem; color: var(--text-muted);">
+                    📍 Cairo, Egypt · Open to Remote & On-Site Roles Worldwide
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 Ziad Tarek. Engineered with Swift passion and Apple Human Interface Guidelines.</p>
+        </div>
+    </footer>
+
+    <!-- ROBUST JAVASCRIPT LOGIC -->
+    <script>
+        // =========================================================================
+        // 1. THEME SWITCHER (DARK / LIGHT) - ROCK SOLID WITH TRY/CATCH
+        // =========================================================================
+        function getSavedTheme() {
+            try {
+                const saved = localStorage.getItem('ziad_portfolio_theme');
+                if (saved === 'light' || saved === 'dark') return saved;
+            } catch (e) {
+                console.warn('localStorage not accessible, using default dark mode');
+            }
+            return 'dark';
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            try {
+                localStorage.setItem('ziad_portfolio_theme', theme);
+            } catch (e) {}
+
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            if (sunIcon && moonIcon) {
+                if (theme === 'light') {
+                    sunIcon.style.display = 'none';
+                    moonIcon.style.display = 'block';
+                } else {
+                    sunIcon.style.display = 'block';
+                    moonIcon.style.display = 'none';
+                }
+            }
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const next = (current === 'dark') ? 'light' : 'dark';
+            applyTheme(next);
+            showToast((next === 'dark') ? '🌙 Dark mode enabled' : '☀️ Light mode enabled');
+        }
+
+        // Initialize Theme safely on load
+        applyTheme(getSavedTheme());
+
+        // =========================================================================
+        // 2. DYNAMIC ISLAND EXPANSION
+        // =========================================================================
+        function toggleIsland() {
+            const island = document.getElementById('dynamicIsland');
+            if (island) {
+                island.classList.toggle('expanded');
+            }
+        }
+
+        // =========================================================================
+        // 3. IPHONE KEYNOTE STUDIO DATA & SWITCHER
+        // =========================================================================
+        const appsDatabase = {
+            delta: {
+                title: "Delta Capital",
+                category: "Residential Compound Platform",
+                icon: "🏢",
+                iconBg: "linear-gradient(135deg, #1b3a5c, #2a5298)",
+                badge: "App Store Verified",
+                badgeClass: "",
+                headline: "A Unified Smart Compound Living Ecosystem",
+                desc: "Delta Capital connects compound residents with maintenance services, security gate access, visitor pass generation, and an active community feed with local caching and offline capabilities.",
+                specs: [
+                    { label: "Architecture", val: "MVVM + Clean UI" },
+                    { label: "Key Tech", val: "SwiftUI, URLSession" },
+                    { label: "Storage", val: "Keychain & UserDefaults" },
+                    { label: "CI/CD", val: "Xcode Cloud & TestFlight" }
+                ],
+                phoneOverviewTitle: "4 Core Living Modules",
+                phoneOverviewDesc: "Service booking, visitor QR gates, digital marketplace, and private resident messaging.",
+                phoneArchTitle: "MVVM + Swift Concurrency",
+                phoneArchDesc: "Clear separation of concerns with async/await networking, caching layer, and reusable SwiftUI components.",
+                phoneMetricTitle: "Continuous Releases",
+                phoneMetricDesc: "Automated TestFlight distributions and seamless App Store production updates via Xcode Cloud.",
+                url: "https://apps.apple.com/eg/app/delta-capital-%D8%AF%D9%84%D8%AA%D8%A7-%D9%83%D8%A7%D8%A8%D9%8A%D8%AA%D8%A7%D9%84/id1571792080",
+                buttonText: "Open in App Store"
+            },
+            alheba: {
+                title: "Alheba Grocery",
+                category: "Grocery E-Commerce Platform",
+                icon: "🛒",
+                iconBg: "linear-gradient(135deg, #107e3e, #28cd41)",
+                badge: "13,000+ Active Installs",
+                badgeClass: "color: var(--apple-swift); border-color: rgba(240, 81, 56, 0.3); background: rgba(240, 81, 56, 0.12);",
+                headline: "High-Traffic Retail E-Commerce at Scale",
+                desc: "Alheba is a production grocery delivery app with over 13,000 active installs. Ziad led the architectural refactoring of the shopping cart, catalog pagination, and instant checkout flows.",
+                specs: [
+                    { label: "User Base", val: "13K+ App Store Installs" },
+                    { label: "UI Framework", val: "UIKit (Modular Flow)" },
+                    { label: "Optimization", val: "Cart Refactoring" },
+                    { label: "Reliability", val: "Crash-Free Architecture" }
+                ],
+                phoneOverviewTitle: "Fast Checkout Pipeline",
+                phoneOverviewDesc: "Instant inventory validation, dynamic delivery timeslots, promo engine, and order tracking.",
+                phoneArchTitle: "Modular Cart Architecture",
+                phoneArchDesc: "Completely decoupled shopping cart state management, eliminating legacy bugs and reducing memory overhead.",
+                phoneMetricTitle: "Scalability Under Load",
+                phoneMetricDesc: "Optimized network payloads and local caching to sustain high concurrency during peak sale events.",
+                url: "https://apps.apple.com/eg/app/alheba-%D8%A7%D9%84%D9%87%D8%A8%D8%A9/id1575791379",
+                buttonText: "View on App Store (13K+)"
+            },
+            aqarify: {
+                title: "Aqarify CRM",
+                category: "Real Estate Broker Platform",
+                icon: "🏘️",
+                iconBg: "linear-gradient(135deg, #4a154b, #BF5AF2)",
+                badge: "VIPER Architecture",
+                badgeClass: "color: var(--apple-purple); border-color: rgba(191, 90, 242, 0.3); background: rgba(191, 90, 242, 0.12);",
+                headline: "Enterprise CRM Platform for Real Estate Brokers",
+                desc: "Aqarify empowers real estate agents to manage properties, navigate reservation agreements, and nurture buyer leads using a battle-tested VIPER architecture and Universal Links.",
+                specs: [
+                    { label: "Pattern", val: "VIPER Architecture" },
+                    { label: "Deep Linking", val: "Universal Links" },
+                    { label: "Modules", val: "Client, Unit & Reservation" },
+                    { label: "Sync", val: "RESTful JSON APIs" }
+                ],
+                phoneOverviewTitle: "Broker & Lead CRM",
+                phoneOverviewDesc: "End-to-end unit availability checks, instant reservation locks, and broker commission pipelines.",
+                phoneArchTitle: "Strict VIPER Modularity",
+                phoneArchDesc: "View, Interactor, Presenter, Entity, and Router isolated cleanly to enable enterprise testing and expansion.",
+                phoneMetricTitle: "Universal Links",
+                phoneMetricDesc: "Deep linking configured to launch brokers directly into specific listing pages from external shared links.",
+                url: "https://apps.apple.com/eg/app/aqarify/id6752714540",
+                buttonText: "Open in App Store"
+            },
+            kamco: {
+                title: "Kamco EOIs",
+                category: "Live Bidding & Auction App",
+                icon: "🏷️",
+                iconBg: "linear-gradient(135deg, #c2410c, #FF9F0A)",
+                badge: "Real-Time WebSockets",
+                badgeClass: "color: var(--apple-orange); border-color: rgba(255, 159, 10, 0.3); background: rgba(255, 159, 10, 0.12);",
+                headline: "Live Auction Bidding Powered by Pusher WebSockets",
+                desc: "Kamco provides live real estate bidding and Expression of Interest (EOI) management, streaming sub-second price changes and offer validations to buyers in real-time.",
+                specs: [
+                    { label: "Real-Time", val: "Pusher (WebSockets)" },
+                    { label: "Concurrency", val: "Swift async/await, GCD" },
+                    { label: "UI Layer", val: "SwiftUI Animated" },
+                    { label: "Domain", val: "PropTech & Live Auctions" }
+                ],
+                phoneOverviewTitle: "Dynamic Auction Rooms",
+                phoneOverviewDesc: "Live price increments, countdown timers, counter-offers, and instantaneous apartment reservations.",
+                phoneArchTitle: "Pusher WebSockets & async/await",
+                phoneArchDesc: "Bidirectional WebSocket connection pipeline managed cleanly with Swift Concurrency and defensive reconnection.",
+                phoneMetricTitle: "Sub-Second Sync",
+                phoneMetricDesc: "Zero-lag room state broadcast across multiple simultaneous bidders with optimistic UI updates.",
+                url: "https://apps.apple.com/eg/app/kamco-eois/id6747507109",
+                buttonText: "View on App Store"
+            },
+            pioneer: {
+                title: "Pioneer Law",
+                category: "Legal EdTech Streaming App",
+                icon: "⚖️",
+                iconBg: "linear-gradient(135deg, #1e3a8a, #3b82f6)",
+                badge: "Production Client App",
+                badgeClass: "",
+                headline: "Legal E-Learning & Video Streaming Platform",
+                desc: "An educational platform tailored for law students, integrating in-app subscription payments, video lectures with chapter markers, and interactive quiz assessments.",
+                specs: [
+                    { label: "Payments", val: "In-App Subscriptions" },
+                    { label: "Media", val: "AVPlayer Streaming" },
+                    { label: "Architecture", val: "MVVM Pattern" },
+                    { label: "Audience", val: "Law Students & Colleges" }
+                ],
+                phoneOverviewTitle: "Curated Course Playlists",
+                phoneOverviewDesc: "Structured lecture playlists, bookmarking, legal reference PDFs, and progress tracking.",
+                phoneArchTitle: "In-App Subscription Engine",
+                phoneArchDesc: "Secure StoreKit integration with backend entitlement verification for premium gated courses.",
+                phoneMetricTitle: "Offline Study Mode",
+                phoneMetricDesc: "Cached curriculum content for seamless study without requiring continuous network access.",
+                url: "https://github.com/Ziad-Mo-Tarek",
+                buttonText: "Learn More on GitHub"
+            },
+            crypto: {
+                title: "Crypto Tracker",
+                category: "Financial Reactive App",
+                icon: "🪙",
+                iconBg: "linear-gradient(135deg, #b45309, #f59e0b)",
+                badge: "SwiftUI & Combine",
+                badgeClass: "color: var(--apple-swift); border-color: rgba(240, 81, 56, 0.3); background: rgba(240, 81, 56, 0.12);",
+                headline: "Reactive Market Streams with Apple Combine",
+                desc: "A crypto market tracking tool built during Ziad's engineering internship at Systemira, showcasing reactive streams, live candlestick charts, and Combine publisher/subscriber bindings.",
+                specs: [
+                    { label: "Reactive", val: "Combine Framework" },
+                    { label: "UI", val: "SwiftUI Declarative" },
+                    { label: "APIs", val: "Crypto Market Data" },
+                    { label: "State", val: "ObservableObject, MVVM" }
+                ],
+                phoneOverviewTitle: "Live Price Tickers",
+                phoneOverviewDesc: "Sub-second market price updates, top volume gainers, and interactive price history graphs.",
+                phoneArchTitle: "Combine Publisher Streams",
+                phoneArchDesc: "Data pipeline built using Combine operators (debounce, map, catch) for rock-solid reactive state.",
+                phoneMetricTitle: "Error Resiliency",
+                phoneMetricDesc: "Automatic backoff retry policies ensuring continuous data feeds during network throttling.",
+                url: "https://github.com/Ziad-Mo-Tarek",
+                buttonText: "View Code on GitHub"
+            }
+        };
+
+        let currentActiveApp = 'delta';
+        let currentPhoneTab = 'overview';
+
+        function selectApp(key) {
+            const data = appsDatabase[key];
+            if (!data) return;
+            currentActiveApp = key;
+
+            // Update App Selector Buttons
+            document.querySelectorAll('.app-selector-btn').forEach(btn => {
+                if (btn.getAttribute('data-app') === key) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update Dynamic Island subtitle
+            const islandText = document.getElementById('islandText');
+            if (islandText) {
+                islandText.textContent = `${data.title} · Active`;
+            }
+
+            // Render iPhone Screen
+            renderPhoneScreen(data);
+
+            // Render Right Spec Panel
+            renderKeynoteDetails(data);
+        }
+
+        function switchPhoneTab(tabName) {
+            currentPhoneTab = tabName;
+            document.querySelectorAll('.phone-segment-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.getAttribute('data-tab') === tabName);
+            });
+            document.querySelectorAll('.phone-tab-pane').forEach(pane => {
+                pane.classList.toggle('active', pane.getAttribute('id') === `pane-${tabName}`);
+            });
+        }
+
+        function renderPhoneScreen(data) {
+            const screen = document.getElementById('screenContent');
+            if (!screen) return;
+
+            screen.innerHTML = `
+                <div>
+                    <div class="screen-app-hero">
+                        <div class="screen-app-icon" style="background: ${data.iconBg};">${data.icon}</div>
+                        <div class="screen-app-meta">
+                            <h4>${data.title}</h4>
+                            <span>${data.category}</span>
+                        </div>
+                    </div>
+
+                    <!-- Inner Phone Segmented Switcher -->
+                    <div class="phone-segment">
+                        <div class="phone-segment-tab ${currentPhoneTab === 'overview' ? 'active' : ''}" data-tab="overview" onclick="switchPhoneTab('overview')">Overview</div>
+                        <div class="phone-segment-tab ${currentPhoneTab === 'arch' ? 'active' : ''}" data-tab="arch" onclick="switchPhoneTab('arch')">Architecture</div>
+                        <div class="phone-segment-tab ${currentPhoneTab === 'metrics' ? 'active' : ''}" data-tab="metrics" onclick="switchPhoneTab('metrics')">Metrics</div>
+                    </div>
+
+                    <!-- Tab Panes -->
+                    <div class="phone-tab-pane ${currentPhoneTab === 'overview' ? 'active' : ''}" id="pane-overview">
+                        <div class="screen-card-box">
+                            <h5>Core Capability</h5>
+                            <p>${data.phoneOverviewTitle}</p>
+                        </div>
+                        <div class="screen-card-box">
+                            <h5 style="color: var(--apple-swift);">Experience</h5>
+                            <p>${data.phoneOverviewDesc}</p>
+                        </div>
+                    </div>
+
+                    <div class="phone-tab-pane ${currentPhoneTab === 'arch' ? 'active' : ''}" id="pane-arch">
+                        <div class="screen-card-box">
+                            <h5 style="color: var(--apple-purple);">Pattern</h5>
+                            <p>${data.phoneArchTitle}</p>
+                        </div>
+                        <div class="screen-card-box">
+                            <h5 style="color: var(--apple-cyan);">Engineering</h5>
+                            <p>${data.phoneArchDesc}</p>
+                        </div>
+                    </div>
+
+                    <div class="phone-tab-pane ${currentPhoneTab === 'metrics' ? 'active' : ''}" id="pane-metrics">
+                        <div class="screen-card-box">
+                            <h5 style="color: var(--apple-green);">Production Metric</h5>
+                            <p>${data.phoneMetricTitle}</p>
+                        </div>
+                        <div class="screen-card-box">
+                            <h5>Distribution</h5>
+                            <p>${data.phoneMetricDesc}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="${data.url}" target="_blank" class="screen-store-cta">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.99.6-2.63 1.35-.56.65-.98 1.7-.85 2.73 1 .08 2.03-.5 2.55-1.23z"/></svg>
+                    <span>${data.buttonText}</span>
+                </a>
+            `;
+        }
+
+        function renderKeynoteDetails(data) {
+            const container = document.getElementById('keynoteDetails');
+            if (!container) return;
+
+            let specsHtml = data.specs.map(s => `
+                <div class="spec-item">
+                    <div class="spec-item-label">${s.label}</div>
+                    <div class="spec-item-val">${s.val}</div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="details-pill" style="${data.badgeClass}">${data.badge}</div>
+                <h3 class="details-title">${data.title}</h3>
+                <p class="details-desc">${data.desc}</p>
+
+                <div class="spec-grid">
+                    ${specsHtml}
+                </div>
+
+                <div class="details-actions">
+                    <a href="${data.url}" target="_blank" class="btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.99.6-2.63 1.35-.56.65-.98 1.7-.85 2.73 1 .08 2.03-.5 2.55-1.23z"/></svg>
+                        <span>${data.buttonText}</span>
+                    </a>
+
+                    <a href="https://github.com/Ziad-Mo-Tarek" target="_blank" class="btn-secondary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        <span>GitHub Profile</span>
+                    </a>
+                </div>
+            `;
+        }
+
+        // Initialize Keynote Stage with Delta Capital
+        selectApp('delta');
+
+        // =========================================================================
+        // 4. TOAST NOTIFICATION & COPY EMAIL
+        // =========================================================================
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            if (toast && toastMsg) {
+                toastMsg.textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3200);
+            }
+        }
+
+        function copyEmail() {
+            navigator.clipboard.writeText('ziad.sh.tarek@gmail.com').then(() => {
+                showToast('Email (ziad.sh.tarek@gmail.com) copied!');
+            }).catch(() => {
+                showToast('Email: ziad.sh.tarek@gmail.com');
+            });
+        }
+    </script>
+</body>
+</html>
