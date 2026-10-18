@@ -617,17 +617,22 @@
         .iphone-wrapper {
             display: flex;
             justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 0 auto;
         }
 
         .iphone-frame {
-            width: 370px;
-            height: 740px;
+            width: 100%;
+            max-width: 360px;
+            height: 720px;
             background: #000000;
-            border-radius: 56px;
-            padding: 14px;
+            border-radius: 54px;
+            padding: 13px;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.75), inset 0 0 0 3px #38383e, inset 0 0 0 6px #1c1c1f;
             position: relative;
             user-select: none;
+            margin: 0 auto;
         }
 
         .iphone-screen {
@@ -950,14 +955,17 @@
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            gap: 16px;
+            gap: 14px;
             margin-bottom: 22px;
+            flex-wrap: wrap;
         }
 
         .app-icon-wrap {
             display: flex;
             align-items: center;
             gap: 16px;
+            min-width: 0;
+            flex: 1 1 auto;
         }
 
         .app-icon {
@@ -972,11 +980,16 @@
             flex-shrink: 0;
         }
 
+        .app-title-group {
+            min-width: 0;
+        }
+
         .app-title-group h3 {
             font-size: 1.35rem;
             font-weight: 700;
             letter-spacing: -0.02em;
             margin-bottom: 4px;
+            word-break: break-word;
         }
 
         .app-category {
@@ -989,15 +1002,19 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 12px;
+            padding: 5px 12px;
             border-radius: var(--radius-pill);
             background: rgba(var(--apple-blue-rgb), 0.12);
             border: 1px solid rgba(var(--apple-blue-rgb), 0.25);
             color: var(--apple-blue);
-            font-size: 0.76rem;
+            font-size: 0.74rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.04em;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.2;
+            align-self: flex-start;
         }
 
         .store-badge.highlight {
@@ -1471,28 +1488,225 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
             .nav-links {
                 display: none;
             }
-            .iphone-frame {
-                width: 320px;
-                height: 650px;
+
+            /* Fix iPhone container overflow & strict centering */
+            .keynote-section {
+                padding: 60px 0;
             }
+
+            .keynote-stage {
+                padding: 24px 12px;
+                gap: 28px;
+                border-radius: 24px;
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .iphone-wrapper {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0 auto;
+            }
+
+            .iphone-frame {
+                width: 100%;
+                max-width: min(315px, calc(100vw - 56px));
+                height: 630px;
+                padding: 10px;
+                border-radius: 46px;
+                margin: 0 auto;
+            }
+
+            .iphone-screen {
+                border-radius: 38px;
+            }
+
+            .screen-content {
+                padding: 38px 12px 14px 12px;
+            }
+
+            .dynamic-island {
+                width: 105px;
+                height: 28px;
+                top: 10px;
+            }
+
+            .dynamic-island.expanded {
+                width: 210px;
+                height: 38px;
+            }
+
+            .screen-app-hero {
+                gap: 12px;
+                margin-bottom: 14px;
+            }
+
+            .screen-app-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.4rem;
+                border-radius: 13px;
+            }
+
+            .screen-app-meta h4 {
+                font-size: 1.05rem;
+            }
+
+            .screen-app-meta span {
+                font-size: 0.76rem;
+            }
+
+            .phone-segment {
+                margin-bottom: 12px;
+            }
+
+            .phone-segment-tab {
+                font-size: 0.72rem;
+                padding: 5px 0;
+            }
+
+            .screen-card-box {
+                padding: 12px;
+                margin-bottom: 8px;
+                border-radius: 14px;
+            }
+
+            .screen-card-box h5 {
+                font-size: 0.72rem;
+                margin-bottom: 4px;
+            }
+
+            .screen-card-box p {
+                font-size: 0.78rem;
+                line-height: 1.4;
+            }
+
+            .screen-store-cta {
+                padding: 11px;
+                font-size: 0.82rem;
+            }
+
+            /* Fix project card padding and badge layout on mobile */
+            .app-card {
+                padding: 24px 16px;
+                border-radius: 20px;
+            }
+
+            .app-card-top {
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+
+            .app-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                border-radius: 14px;
+            }
+
+            .app-title-group h3 {
+                font-size: 1.22rem;
+            }
+
+            .app-category {
+                font-size: 0.82rem;
+            }
+
+            .app-desc {
+                font-size: 0.9rem;
+            }
+
+            .app-feature-list li {
+                font-size: 0.85rem;
+            }
+
+            .store-badge {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+            }
+
+            /* Selector strip */
+            .app-selector-strip {
+                gap: 8px;
+                margin-bottom: 24px;
+            }
+
+            .app-selector-btn {
+                padding: 7px 14px;
+                font-size: 0.82rem;
+                gap: 6px;
+            }
+
+            /* Hero & Metrics */
+            .hero-header-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 14px;
+            }
+
+            .hero-avatar-wrap {
+                width: 86px;
+                height: 86px;
+            }
+
             .metric-grid {
                 grid-template-columns: 1fr 1fr;
+                gap: 12px;
             }
+
+            .metric-card {
+                padding: 16px;
+            }
+
+            .metric-val {
+                font-size: 1.8rem;
+            }
+
+            .metric-label {
+                font-size: 0.8rem;
+            }
+
             .contact-card {
-                padding: 36px 20px;
+                padding: 36px 16px;
             }
+
             .hero-cta-group {
                 flex-direction: column;
                 align-items: stretch;
             }
+
             .btn-primary, .btn-secondary {
                 justify-content: center;
             }
+
             .spec-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .iphone-frame {
+                max-width: 285px;
+                height: 580px;
+                padding: 8px;
+                border-radius: 40px;
+            }
+
+            .iphone-screen {
+                border-radius: 32px;
+            }
+
+            .screen-content {
+                padding: 34px 10px 12px 10px;
             }
         }
     </style>
